@@ -1,3 +1,4 @@
+########## C++ ##########
 # Prerequisites
 *.d
 
@@ -30,3 +31,17 @@
 *.exe
 *.out
 *.app
+
+########## IDE: TrueSTUDIO for STM32 ##########
+/Debug/
+/Release/
+/libraries/
+/Utilities/
+
+/src/startup_stm32f10x_md.s
+/src/system_stm32f10x.c
+/src/tiny_printf.c
+/src/stm32f10x_conf.h
+
+stm32_flash.ld
+*.elf.launch

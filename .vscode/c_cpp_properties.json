@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/**",
+                "C:\\Program Files (x86)\\Atollic\\TrueSTUDIO for STM32 9.3.0\\ARMTools\\arm-atollic-eabi\\include\\**",
+                "C:\\Program Files (x86)\\Atollic\\TrueSTUDIO for STM32 9.3.0\\ARMTools\\arm-atollic-eabi\\include\\c++\\6.3.1\\**",
+                "C:\\Program Files (x86)\\Atollic\\TrueSTUDIO for STM32 9.3.0\\ARMTools\\arm-atollic-eabi\\include\\c++\\6.3.1\\arm-atollic-eabi\\armv7-m\\**",
+                "C:\\Program Files (x86)\\Atollic\\TrueSTUDIO for STM32 9.3.0\\ARMTools\\arm-atollic-eabi\\include\\c++\\6.3.1\\backward\\**",
+                "C:\\Program Files (x86)\\Atollic\\TrueSTUDIO for STM32 9.3.0\\ARMTools\\lib\\gcc\\arm-atollic-eabi\\6.3.1\\include\\**",
+                "C:\\Program Files (x86)\\Atollic\\TrueSTUDIO for STM32 9.3.0\\ARMTools\\lib\\gcc\\arm-atollic-eabi\\6.3.1\\include-fixed\\**"
+            ],
+            "windowsSdkVersion": "10.0.17763.0",
+            "compilerPath": "C:\\Program Files (x86)\\Atollic\\TrueSTUDIO for STM32 9.3.0\\ARMTools\\bin\\arm-atollic-eabi-gcc-6.3.1.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "${default}",
+            "defines": [
+                "HSI_VALUE=8000000",
+                "STM32F10X_MD",
+                "USE_NUCLEO_F103RB",
+                "USE_STDPERIPH_DRIVER"
+            ]
+        }
+    ],
+    "version": 4
+}
