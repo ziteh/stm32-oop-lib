@@ -110,36 +110,17 @@ int main(void)
   }
 }
 ```
-
-<<<<<<< HEAD
-## PWM
-
-Files:
-- [pwm.cpp](/lib/pwm.cpp)
-- [pwm.hpp](/lib/pwm.hpp)
-=======
 ## USART
 
 Files:
 - [usart.cpp](/lib/usart.cpp)
 - [usart.hpp](/lib/usart.hpp)
->>>>>>> 16c05807f0484d07ba773fee0b705bc7a8104bbc
 
 ```cpp
 // main.cpp
 
 extern "C"
 {
-<<<<<<< HEAD
-#include "stm32f1xx_nucleo.h"
-}
-#include "pwm.hpp"
-
-using namespace F103RB;
-
-RCC_ClocksTypeDef RCC_Clocks;
-PWM myPWM(PA7, TIM3, CH2);
-=======
 #include <stdio.h>
 #include "stm32f1xx_nucleo.h"
 }
@@ -162,7 +143,6 @@ void USART_Handler()
   USB.Send(data);
   Led.Set(LOW);
 }
->>>>>>> 16c05807f0484d07ba773fee0b705bc7a8104bbc
 
 int main(void)
 {
@@ -170,25 +150,6 @@ int main(void)
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
   
   // Setup RCC.
-<<<<<<< HEAD
-  RCC_GetClocksFreq(&RCC_Clocks);
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2 |
-                         RCC_APB1Periph_TIM3,
-                         ENABLE);
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-
-  myPWM.Init(RCC_Clocks);
-  myPWM.Set_Frequency(1500); // 1.5k Hz
-  myPWM.Set_DutyCycle(33);   // 33.0 % Duty cycle
-
-  myPWM.Enable(); // Enable PWM output.
-
-  while (1)
-  { /* null */ }
-}
-
-```
-=======
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
@@ -216,4 +177,47 @@ void USART2_IRQHandler(void)
   }
 }
 ```
->>>>>>> 16c05807f0484d07ba773fee0b705bc7a8104bbc
+
+## PWM
+
+Files:
+- [pwm.cpp](/lib/pwm.cpp)
+- [pwm.hpp](/lib/pwm.hpp)
+
+```cpp
+// main.cpp
+
+extern "C"
+{
+#include "stm32f1xx_nucleo.h"
+}
+#include "pwm.hpp"
+
+using namespace F103RB;
+
+RCC_ClocksTypeDef RCC_Clocks;
+PWM myPWM(PA7, TIM3, CH2);
+
+int main(void)
+{
+  // Setup NVIC.
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+
+  // Setup RCC.
+  RCC_GetClocksFreq(&RCC_Clocks);
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2 |
+                         RCC_APB1Periph_TIM3,
+                         ENABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+
+  myPWM.Init(RCC_Clocks);
+  myPWM.Set_Frequency(1500); // 1.5k Hz
+  myPWM.Set_DutyCycle(33);   // 33.0 % Duty cycle
+
+  myPWM.Enable(); // Enable PWM output.
+
+  while (1)
+  { /* null */ }
+}
+
+```
