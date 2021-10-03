@@ -68,7 +68,7 @@ namespace F103RB
 
   GPIO_ValueTypeDef GPIO::Get(void)
   {
-    uint8_t value;
+    GPIO_ValueTypeDef value;
 
     if (this->Is_OutputPin())
     {
@@ -81,7 +81,7 @@ namespace F103RB
       // value = GPIO_ReadInputDataBit(this->Get_Port(), this->Get_Pin());
     }
 
-    return this->Convert_uint8_t_to_GPIO_Value_TypeDef(value);
+    return value;
   }
 
   GPIO_ValueTypeDef GPIO::Get_Input(void)
