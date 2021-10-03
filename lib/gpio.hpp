@@ -29,18 +29,20 @@ namespace F103RB
     GPIOMode_TypeDef _Mode;
     GPIOSpeed_TypeDef _Speed;
 
-    void Init(void);
     GPIO_ValueTypeDef Convert_uint8_t_to_GPIO_Value_TypeDef(uint8_t value);
 
   public:
     GPIO(GPIO_PortPinTypeDef port_Pin,
          GPIOMode_TypeDef mode,
-         GPIOSpeed_TypeDef speed = DEFAULT_GPIO_SPEED);
-
+         GPIOSpeed_TypeDef speed = DEFAULT_GPIO_SPEED,
+         bool immediatelyInit = true);
     GPIO(GPIO_PortPinTypeDef port_Pin,
          GPIOMode_TypeDef mode,
          GPIO_ValueTypeDef init_Value,
-         GPIOSpeed_TypeDef speed = DEFAULT_GPIO_SPEED);
+         GPIOSpeed_TypeDef speed = DEFAULT_GPIO_SPEED,
+         bool immediatelyInit = true);
+
+    void Init(void);
 
     void Set(GPIO_ValueTypeDef value);
     void Set(uint8_t value);

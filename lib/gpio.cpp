@@ -9,28 +9,32 @@ namespace F103RB
 {
   GPIO::GPIO(GPIO_PortPinTypeDef port_Pin,
              GPIOMode_TypeDef mode,
-             GPIOSpeed_TypeDef speed)
+             GPIOSpeed_TypeDef speed,
+             bool immediatelyInit)
   {
     this->_Port_Pin = port_Pin;
     this->_Mode = mode;
     this->_Speed = speed;
-    this->Init();
+
+    if (immediatelyInit)
+      this->Init();
   }
 
   GPIO::GPIO(GPIO_PortPinTypeDef port_Pin,
              GPIOMode_TypeDef mode,
              GPIO_ValueTypeDef init_Value,
-             GPIOSpeed_TypeDef speed)
+             GPIOSpeed_TypeDef speed,
+             bool immediatelyInit)
   {
     this->_Port_Pin = port_Pin;
     this->_Mode = mode;
     this->_Speed = speed;
-    this->Init();
+
+    if (immediatelyInit)
+      this->Init();
 
     if (this->Is_OutputPin())
-    {
       this->Set(init_Value);
-    }
   }
 
   void GPIO::Init(void)
