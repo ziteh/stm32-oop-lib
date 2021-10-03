@@ -1,16 +1,13 @@
 /**
- * @file    stm32f103rb_gpio_mapping.h 
- * @author	ZiTe <honmonoh@gmail.com>
+ * @file    stm32f103rb_gpio_mapping.hpp
+ * @author  ZiTe <honmonoh@gmail.com>
  */
 
-#ifndef STM32F103RB_GPIO_MAPPING_H_
-#define STM32F103RB_GPIO_MAPPING_H_
+#ifndef STM32F103RB_GPIO_MAPPING_HPP_
+#define STM32F103RB_GPIO_MAPPING_HPP_
 
-#ifdef __cplusplus
-extern "C"
+namespace F103RB
 {
-#endif
-
   typedef enum
   {
     /* STM32 Pin(Morpho) */
@@ -387,9 +384,6 @@ extern "C"
     User_Button = B1,
     User_LED = LD2
   } GPIO_PortPinTypeDef;
+}
 
-#ifdef __cplusplus
-} /* extern "C" { */
-#endif
-
-#endif /* STM32F103RB_GPIO_MAPPING_H_ */
+#endif /* STM32F103RB_GPIO_MAPPING_HPP_ */

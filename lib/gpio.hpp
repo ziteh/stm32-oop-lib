@@ -9,8 +9,8 @@
 extern "C"
 {
 #include "stm32f10x.h"
-#include "stm32f103rb_gpio_mapping.h"
 }
+#include "stm32f103rb_gpio_mapping.hpp"
 
 #define DEFAULT_GPIO_SPEED GPIO_Speed_10MHz
 
@@ -20,38 +20,41 @@ typedef enum
   HIGH = !LOW
 } GPIO_ValueTypeDef;
 
-class GPIO
+namespace F103RB
 {
-public:
-  GPIO(GPIO_PortPinTypeDef port_Pin,
-       GPIOMode_TypeDef mode,
-       GPIOSpeed_TypeDef speed = DEFAULT_GPIO_SPEED);
+  class GPIO
+  {
+  private:
+    GPIO_PortPinTypeDef _Port_Pin;
+    GPIOMode_TypeDef _Mode;
+    GPIOSpeed_TypeDef _Speed;
 
-  GPIO(GPIO_PortPinTypeDef port_Pin,
-       GPIOMode_TypeDef mode,
-       GPIO_ValueTypeDef init_Value,
-       GPIOSpeed_TypeDef speed = DEFAULT_GPIO_SPEED);
+    void Init(void);
+    GPIO_ValueTypeDef Convert_uint8_t_to_GPIO_Value_TypeDef(uint8_t value);
 
-  void Set(GPIO_ValueTypeDef value);
-  void Set(uint8_t value);
-  void Toggle(void);
+  public:
+    GPIO(GPIO_PortPinTypeDef port_Pin,
+         GPIOMode_TypeDef mode,
+         GPIOSpeed_TypeDef speed = DEFAULT_GPIO_SPEED);
 
-  GPIO_ValueTypeDef Get(void);
-  GPIO_ValueTypeDef Get_Input(void);
-  GPIO_ValueTypeDef Get_Output(void);
+    GPIO(GPIO_PortPinTypeDef port_Pin,
+         GPIOMode_TypeDef mode,
+         GPIO_ValueTypeDef init_Value,
+         GPIOSpeed_TypeDef speed = DEFAULT_GPIO_SPEED);
 
-  GPIO_TypeDef *Get_Port(void);
-  uint16_t Get_Pin(void);
+    void Set(GPIO_ValueTypeDef value);
+    void Set(uint8_t value);
+    void Toggle(void);
 
-  bool Is_OutputPin(void);
+    GPIO_ValueTypeDef Get(void);
+    GPIO_ValueTypeDef Get_Input(void);
+    GPIO_ValueTypeDef Get_Output(void);
 
-private:
-  GPIO_PortPinTypeDef _Port_Pin;
-  GPIOMode_TypeDef _Mode;
-  GPIOSpeed_TypeDef _Speed;
+    GPIO_TypeDef *Get_Port(void);
+    uint16_t Get_Pin(void);
 
-  void Init(void);
-  GPIO_ValueTypeDef Convert_uint8_t_to_GPIO_Value_TypeDef(uint8_t value);
-};
+    bool Is_OutputPin(void);
+  };
+}
 
 #endif /* GPIO_HPP_ */
