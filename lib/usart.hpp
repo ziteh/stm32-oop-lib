@@ -1,6 +1,6 @@
 /**
- * @file	  usart.hpp
- * @author	ZiTe <honmonoh@gmail.com>
+ * @file    usart.hpp
+ * @author  ZiTe <honmonoh@gmail.com>
  */
 
 #ifndef USART_HPP_

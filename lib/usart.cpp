@@ -1,6 +1,6 @@
 /**
- * @file	  usart.cpp
- * @author	ZiTe <honmonoh@gmail.com>
+ * @file    usart.cpp
+ * @author  ZiTe <honmonoh@gmail.com>
  */
 
 #include "usart.hpp"
