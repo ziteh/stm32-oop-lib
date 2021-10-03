@@ -4,7 +4,15 @@
 			"path": "."
 		}
   ],
-  "settings": {},
+  "settings": {
+    "files.associations": {
+      "*.tcc": "cpp",
+      "fstream": "cpp",
+      "istream": "cpp",
+      "ostream": "cpp",
+      "sstream": "cpp"
+    }
+  },
   "extensions": {
     "recommendations": [
       "ms-vscode.cpptools"
