@@ -15,6 +15,12 @@ The following example may ellipsis `F103RB::` or `using namespace F103RB;`.
 以下的範例可能會省略 `F103RB::` 或 `using namespace F103RB;`。
 
 ## GPIO
+
+Files:
+- [gpio.cpp](/lib/gpio.cpp)
+- [gpio.hpp](/lib/gpio.hpp)
+- [stm32f103rb_gpio_mapping.hpp](/lib/stm32f103rb_gpio_mapping.hpp)
+
 ### Setup / 設定
 ```cpp
 // Setup PA0 to Push-Pull Output mode, and Speed is 2MHz.
@@ -105,17 +111,26 @@ int main(void)
 }
 ```
 
+<<<<<<< HEAD
 ## PWM
 
 Files:
 - [pwm.cpp](/lib/pwm.cpp)
 - [pwm.hpp](/lib/pwm.hpp)
+=======
+## USART
+
+Files:
+- [usart.cpp](/lib/usart.cpp)
+- [usart.hpp](/lib/usart.hpp)
+>>>>>>> 16c05807f0484d07ba773fee0b705bc7a8104bbc
 
 ```cpp
 // main.cpp
 
 extern "C"
 {
+<<<<<<< HEAD
 #include "stm32f1xx_nucleo.h"
 }
 #include "pwm.hpp"
@@ -124,6 +139,30 @@ using namespace F103RB;
 
 RCC_ClocksTypeDef RCC_Clocks;
 PWM myPWM(PA7, TIM3, CH2);
+=======
+#include <stdio.h>
+#include "stm32f1xx_nucleo.h"
+}
+#include "usart.hpp"
+
+using namespace F103RB;
+
+GPIO Led(LD2, GPIO_Mode_Out_PP, LOW);
+USART MyUSART(9600);
+
+void USART_Handler()
+{
+  Led.Set(HIGH);
+  uint16_t receivData = USART_ReceiveData(USART2);
+  
+  // Convert int(ASCII) to char.
+  char data[1];
+  sprintf(data, "%c", (int)receivData);
+  
+  USB.Send(data);
+  Led.Set(LOW);
+}
+>>>>>>> 16c05807f0484d07ba773fee0b705bc7a8104bbc
 
 int main(void)
 {
@@ -131,6 +170,7 @@ int main(void)
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
   
   // Setup RCC.
+<<<<<<< HEAD
   RCC_GetClocksFreq(&RCC_Clocks);
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2 |
                          RCC_APB1Periph_TIM3,
@@ -148,3 +188,32 @@ int main(void)
 }
 
 ```
+=======
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+
+  Led.Init();
+  MyUSART.Init();
+
+  MyUSART.Send("Ready!");
+  while (1)
+  { /* null */ }
+}
+```
+
+```cpp
+// stm32f1xx_it.c
+
+... ...
+
+void USART2_IRQHandler(void)
+{
+  if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
+  {
+    USART2_Handler(); // In main.cpp
+
+    USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+  }
+}
+```
+>>>>>>> 16c05807f0484d07ba773fee0b705bc7a8104bbc
