@@ -12,7 +12,7 @@ extern "C"
 }
 #include "stm32f103rb_gpio_mapping.hpp"
 
-#define DEFAULT_GPIO_SPEED GPIO_Speed_10MHz
+#define DEFAULT_GPIO_SPEED (GPIO_Speed_10MHz)
 
 typedef enum
 {
