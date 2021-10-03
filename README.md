@@ -75,7 +75,7 @@ value1 = pin1.Get_Output();
 
 extern "C"
 {
-#include "main.h"
+#include "stm32f1xx_nucleo.h"
 }
 #include "gpio.hpp"
 
