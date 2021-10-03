@@ -104,3 +104,47 @@ int main(void)
   }
 }
 ```
+
+## PWM
+
+Files:
+- [pwm.cpp](/lib/pwm.cpp)
+- [pwm.hpp](/lib/pwm.hpp)
+
+```cpp
+// main.cpp
+
+extern "C"
+{
+#include "stm32f1xx_nucleo.h"
+}
+#include "pwm.hpp"
+
+using namespace F103RB;
+
+RCC_ClocksTypeDef RCC_Clocks;
+PWM myPWM(PA7, TIM3, CH2);
+
+int main(void)
+{
+  // Setup NVIC.
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+  
+  // Setup RCC.
+  RCC_GetClocksFreq(&RCC_Clocks);
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2 |
+                         RCC_APB1Periph_TIM3,
+                         ENABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+
+  myPWM.Init(RCC_Clocks);
+  myPWM.Set_Frequency(1500); // 1.5k Hz
+  myPWM.Set_DutyCycle(33);   // 33.0 % Duty cycle
+
+  myPWM.Enable(); // Enable PWM output.
+
+  while (1)
+  { /* null */ }
+}
+
+```
