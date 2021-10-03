@@ -11,7 +11,9 @@
       "istream": "cpp",
       "ostream": "cpp",
       "sstream": "cpp"
-    }
+    },
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2
   },
   "extensions": {
     "recommendations": [

@@ -1,6 +1,6 @@
 /**
  * @file    gpio.hpp 
- * @author	ZiTe <honmonoh@gmail.com>
+ * @author  ZiTe <honmonoh@gmail.com>
  */
 
 #ifndef GPIO_HPP_

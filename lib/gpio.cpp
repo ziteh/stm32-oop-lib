@@ -1,6 +1,6 @@
 /**
- * @file	  gpio.cpp
- * @author	ZiTe <honmonoh@gmail.com>
+ * @file    gpio.cpp
+ * @author  ZiTe <honmonoh@gmail.com>
  */
 
 #include "gpio.hpp"
