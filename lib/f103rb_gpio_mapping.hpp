@@ -3,8 +3,8 @@
  * @author  ZiTe <honmonoh@gmail.com>
  */
 
-#ifndef STM32F103RB_GPIO_MAPPING_HPP_
-#define STM32F103RB_GPIO_MAPPING_HPP_
+#ifndef F103RB_GPIO_MAPPING_HPP_
+#define F103RB_GPIO_MAPPING_HPP_
 
 namespace F103RB
 {
@@ -386,4 +386,4 @@ namespace F103RB
   } GPIO_PortPinTypeDef;
 }
 
-#endif /* STM32F103RB_GPIO_MAPPING_HPP_ */
+#endif /* F103RB_GPIO_MAPPING_HPP_ */

@@ -3,7 +3,7 @@
  * @author  ZiTe <honmonoh@gmail.com>
  */
 
-#include "pwm.hpp"
+#include "f103rb_pwm.hpp"
 
 namespace F103RB
 {

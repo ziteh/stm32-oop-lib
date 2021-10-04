@@ -3,14 +3,14 @@
  * @author	ZiTe <honmonoh@gmail.com>
  */
 
-#ifndef PWM_HPP_
-#define PWM_HPP_
+#ifndef F103RB_PWM_HPP_
+#define PF103RB_WM_HPP_
 
 extern "C"
 {
 #include "stm32f10x.h"
 }
-#include "gpio.hpp"
+#include "f103rb_gpio.hpp"
 
 namespace F103RB
 {
@@ -52,4 +52,4 @@ namespace F103RB
   };
 }
 
-#endif /* PWM_HPP_ */
+#endif /* F103RB_PWM_HPP_ */

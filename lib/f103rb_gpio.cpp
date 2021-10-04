@@ -3,7 +3,7 @@
  * @author  ZiTe <honmonoh@gmail.com>
  */
 
-#include "gpio.hpp"
+#include "f103rb_gpio.hpp"
 
 namespace F103RB
 {

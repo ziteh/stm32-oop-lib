@@ -3,14 +3,14 @@
  * @author  ZiTe <honmonoh@gmail.com>
  */
 
-#ifndef GPIO_HPP_
-#define GPIO_HPP_
+#ifndef F103RB_GPIO_HPP_
+#define F103RB_GPIO_HPP_
 
 extern "C"
 {
 #include "stm32f10x.h"
 }
-#include "stm32f103rb_gpio_mapping.hpp"
+#include "f103rb_gpio_mapping.hpp"
 
 #define DEFAULT_GPIO_SPEED (GPIO_Speed_10MHz)
 
@@ -59,4 +59,4 @@ namespace F103RB
   };
 }
 
-#endif /* GPIO_HPP_ */
+#endif /* F103RB_GPIO_HPP_ */

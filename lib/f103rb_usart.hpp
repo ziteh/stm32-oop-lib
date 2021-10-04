@@ -3,15 +3,15 @@
  * @author  ZiTe <honmonoh@gmail.com>
  */
 
-#ifndef USART_HPP_
-#define USART_HPP_
+#ifndef F103RB_USART_HPP_
+#define F103RB_USART_HPP_
 
 extern "C"
 {
 #include "stm32f10x.h"
 }
 #include <string>
-#include "gpio.hpp"
+#include "f103rb_gpio.hpp"
 
 namespace F103RB
 {
@@ -28,4 +28,4 @@ namespace F103RB
   };
 }
 
-#endif /* USART_HPP_ */
+#endif /* F103RB_USART_HPP_ */

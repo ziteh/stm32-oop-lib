@@ -3,7 +3,7 @@
  * @author  ZiTe <honmonoh@gmail.com>
  */
 
-#include "usart.hpp"
+#include "f103rb_usart.hpp"
 
 namespace F103RB
 {

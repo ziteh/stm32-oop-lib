@@ -17,9 +17,9 @@ The following example may ellipsis `F103RB::` or `using namespace F103RB;`.
 ## GPIO
 
 Files:
-- [gpio.cpp](/lib/gpio.cpp)
-- [gpio.hpp](/lib/gpio.hpp)
-- [stm32f103rb_gpio_mapping.hpp](/lib/stm32f103rb_gpio_mapping.hpp)
+- [f103rb_gpio.cpp](/lib/f103rb_gpio.cpp)
+- [f103rb_gpio.hpp](/lib/f103rb_gpio.hpp)
+- [f103rb_gpio_mapping.hpp](/lib/f103rb_gpio_mapping.hpp)
 
 ### Setup / 設定
 ```cpp
@@ -83,7 +83,7 @@ extern "C"
 {
 #include "stm32f1xx_nucleo.h"
 }
-#include "gpio.hpp"
+#include "f103rb_gpio.hpp"
 
 using namespace F103RB;
 
@@ -113,8 +113,8 @@ int main(void)
 ## USART
 
 Files:
-- [usart.cpp](/lib/usart.cpp)
-- [usart.hpp](/lib/usart.hpp)
+- [f103rb_usart.cpp](/lib/f103rb_usart.cpp)
+- [f103rb_usart.hpp](/lib/f103rb_usart.hpp)
 
 ```cpp
 // main.cpp
@@ -124,7 +124,7 @@ extern "C"
 #include <stdio.h>
 #include "stm32f1xx_nucleo.h"
 }
-#include "usart.hpp"
+#include "f103rb_usart.hpp"
 
 using namespace F103RB;
 
@@ -181,8 +181,8 @@ void USART2_IRQHandler(void)
 ## PWM
 
 Files:
-- [pwm.cpp](/lib/pwm.cpp)
-- [pwm.hpp](/lib/pwm.hpp)
+- [f103rb_pwm.cpp](/lib/f103rb_pwm.cpp)
+- [f103rb_pwm.hpp](/lib/f103rb_pwm.hpp)
 
 ```cpp
 // main.cpp
@@ -191,7 +191,7 @@ extern "C"
 {
 #include "stm32f1xx_nucleo.h"
 }
-#include "pwm.hpp"
+#include "f103rb_pwm.hpp"
 
 using namespace F103RB;
 
