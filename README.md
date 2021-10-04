@@ -149,7 +149,7 @@ using namespace F103RB;
 GPIO Led(LD2, GPIO_Mode_Out_PP, LOW);
 USART MyUSART(9600);
 
-void USART_Handler()
+void USART2_Handler()
 {
   Led.Set(HIGH);
   uint16_t receivData = USART_ReceiveData(USART2);
