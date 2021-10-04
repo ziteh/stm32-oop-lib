@@ -158,7 +158,7 @@ void USART_Handler()
   char data[1];
   sprintf(data, "%c", (int)receivData);
   
-  USB.Send(data);
+  MyUSART.Send(data);
   Led.Set(LOW);
 }
 
