@@ -6,6 +6,12 @@ Basic libraries specialized for STM32F103RB ([NUCLEO-F103RB](https://www.st.com/
 
 專門給 STM32F103RB ([NUCLEO-F103RB](https://www.st.com/en/evaluation-tools/nucleo-f103rb.html) development board) 使用的基本函式庫。 
 
+# Features / 功能
+- GPIO
+- USART
+- PWM
+- ADC
+
 # Usage / 用法
 
 1. Setup path for [lib](/lib) in your IDE.
