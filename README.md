@@ -217,5 +217,57 @@ int main(void)
   while (1)
   { /* null */ }
 }
+```
 
+## ADC
+
+Files:
+- [f103rb_adc.cpp](/lib/f103rb_adc.cpp)
+- [f103rb_adc.hpp](/lib/f103rb_adc.hpp)
+
+```cpp
+// main.cpp
+
+extern "C"
+{
+#include <stdio.h>
+#include "stm32f1xx_nucleo.h"
+}
+#include "f103rb_adc.hpp"
+#include "f103rb_usart.hpp"
+
+using namespace F103RB;
+
+USART myUSART(9600);
+ADC myADC(A1, ADC1, ADC_Channel_1);
+
+void Delay(__IO uint32_t ms)
+{ /* some code here ... */ }
+
+int main(void)
+{
+  // Setup RCC.
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA |
+                         RCC_APB2Periph_ADC1,
+                         ENABLE);
+
+  myUSART.Init();
+  myADC.Init();
+  myADC.Enable();
+
+  while (1)
+  {
+    uint16_t value = myADC.Get_Value();
+
+    // Convert int to char.
+    static char msg[1];
+    sprintf(msg, "%d", value);
+
+    myUSART.Send(msg);
+    myUSART.Send("\n");
+
+    Delay(250);
+  }
+}
 ```
