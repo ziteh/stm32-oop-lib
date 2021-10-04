@@ -10,5 +10,6 @@
 #include "f103rb_gpio.hpp"
 #include "f103rb_pwm.hpp"
 #include "f103rb_usart.hpp"
+#include "f103rb_adc.hpp"
 
 #endif /* F103RB_LIB_HPP_ */
