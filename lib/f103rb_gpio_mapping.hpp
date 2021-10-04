@@ -1,5 +1,5 @@
 /**
- * @file    stm32f103rb_gpio_mapping.hpp
+ * @file    f103rb_gpio_mapping.hpp
  * @author  ZiTe <honmonoh@gmail.com>
  */
 

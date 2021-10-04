@@ -1,5 +1,5 @@
 /**
- * @file    usart.cpp
+ * @file    f103rb_usart.cpp
  * @author  ZiTe <honmonoh@gmail.com>
  */
 

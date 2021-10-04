@@ -1,5 +1,5 @@
 /**
- * @file    gpio.hpp 
+ * @file    f103rb_gpio.hpp 
  * @author  ZiTe <honmonoh@gmail.com>
  */
 

@@ -1,5 +1,5 @@
 /**
- * @file    pwm.cpp
+ * @file    f103rb_pwm.cpp
  * @author  ZiTe <honmonoh@gmail.com>
  */
 

@@ -1,10 +1,10 @@
 /**
- * @file    pwm.hpp
- * @author	ZiTe <honmonoh@gmail.com>
+ * @file    f103rb_pwm.hpp
+ * @author  ZiTe <honmonoh@gmail.com>
  */
 
 #ifndef F103RB_PWM_HPP_
-#define PF103RB_WM_HPP_
+#define F103RB_PWM_HPP_
 
 extern "C"
 {
