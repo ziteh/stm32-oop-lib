@@ -8,8 +8,20 @@ Basic libraries specialized for STM32F103RB ([NUCLEO-F103RB](https://www.st.com/
 
 # Usage / 用法
 
+1. Setup path for [lib](/lib) in your IDE.
+2. Include header files, select one of the following:
+    1. Add `#include "f103rb_xxx.hpp"` into youe code to use specific features. 
+    2. Include [f103rb_lib.hpp](/lib/f103rb_lib.hpp) to use all the features in this libraries.
+
 All the code in this libraries are inside namespace `F103RB`.  
 The following example may ellipsis `F103RB::` or `using namespace F103RB;`.
+
+<br/>
+
+1. 在你的 IDE 中設定好 [lib](/lib) 的路徑。
+2. 使用以下的其中一種方法來 include 標頭檔：
+    1. 在你的程式碼中加入 `#include "f103rb_xxx.hpp"` 以使用特定的功能。
+    2. Include [f103rb_lib.hpp](/lib/f103rb_lib.hpp) 以使用此函式庫中的所有功能。
 
 此函式庫的所有程式碼都在命名空間 `F103RB` 之中。  
 以下的範例可能會省略 `F103RB::` 或 `using namespace F103RB;`。
