@@ -38,6 +38,7 @@
 /libraries/
 /Utilities/
 
+/src/
 /src/startup_stm32f10x_md.s
 /src/system_stm32f10x.c
 /src/tiny_printf.c
