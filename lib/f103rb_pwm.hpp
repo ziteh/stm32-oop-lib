@@ -36,6 +36,9 @@ namespace F103RB
     uint16_t ConvertDutyCycleToPulse(uint16_t dutyCycle);
 
   public:
+    float FrequencyOffset = 0.0;
+    float DutyCycleOffset = 0.0;
+
     PWM(GPIO_PortPinTypeDef portPin,
         TIM_TypeDef *Timer,
         PWM_TimerChannelTypeDef channel);
@@ -45,7 +48,7 @@ namespace F103RB
     void Disable(void);
 
     void Set_Frequency(uint16_t frequency);
-    void Set_DutyCycle(uint16_t dutyCycle);
+    void Set_DutyCycle(uint16_t value);
 
     uint16_t Get_Frequency(void);
     uint16_t Get_DutyCycle(void);

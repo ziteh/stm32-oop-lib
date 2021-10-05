@@ -93,13 +93,14 @@ namespace F103RB
     TIM_Cmd(_Timer, DISABLE);              // The specified TIM peripheral
   }
 
-  void PWM::Set_Frequency(uint16_t frequency)
+  void PWM::Set_Frequency(uint16_t value)
   {
     /**
    *  TIM_Period = ((System_Frequency / TIM_Prescaler) / PWM_Frequency) - 1
    *
    *  The Maximum of System_Frequency is 72MHz (STM32F103RB)
    */
+    float frequency = value + this->FrequencyOffset;
 
     _TIM_TimeBaseStructure.TIM_Prescaler = 100;
     _TIM_TimeBaseStructure.TIM_Period = ((this->_RCC_Clocks.SYSCLK_Frequency / _TIM_TimeBaseStructure.TIM_Prescaler) / frequency) - 1;
@@ -107,11 +108,13 @@ namespace F103RB
     this->Init_Timer();
   }
 
-  void PWM::Set_DutyCycle(uint16_t dutyCycle)
+  void PWM::Set_DutyCycle(uint16_t value)
   {
-    if (_TIM_OCInitStructure.TIM_Pulse != this->ConvertDutyCycleToPulse(dutyCycle))
+    uint16_t targetDutyCycle = this->ConvertDutyCycleToPulse(value) + this->DutyCycleOffset;
+
+    if (_TIM_OCInitStructure.TIM_Pulse != targetDutyCycle)
     {
-      _TIM_OCInitStructure.TIM_Pulse = this->ConvertDutyCycleToPulse(dutyCycle);
+      _TIM_OCInitStructure.TIM_Pulse = targetDutyCycle;
       this->Init_Timer();
     }
   }
