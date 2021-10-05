@@ -6,6 +6,12 @@ Basic libraries specialized for STM32F103RB ([NUCLEO-F103RB](https://www.st.com/
 
 專門給 STM32F103RB ([NUCLEO-F103RB](https://www.st.com/en/evaluation-tools/nucleo-f103rb.html) development board) 使用的基本函式庫。 
 
+# Features / 功能
+- GPIO
+- USART
+- PWM
+- ADC
+
 # Usage / 用法
 
 1. Setup path for [lib](/lib) in your IDE.
@@ -143,7 +149,7 @@ using namespace F103RB;
 GPIO Led(LD2, GPIO_Mode_Out_PP, LOW);
 USART MyUSART(9600);
 
-void USART_Handler()
+void USART2_Handler()
 {
   Led.Set(HIGH);
   uint16_t receivData = USART_ReceiveData(USART2);
@@ -152,7 +158,7 @@ void USART_Handler()
   char data[1];
   sprintf(data, "%c", (int)receivData);
   
-  USB.Send(data);
+  MyUSART.Send(data);
   Led.Set(LOW);
 }
 
