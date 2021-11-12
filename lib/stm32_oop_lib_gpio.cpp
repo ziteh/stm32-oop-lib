@@ -6,7 +6,7 @@
 
 #include "stm32_oop_lib_gpio.hpp"
 
-namespace F103RB
+namespace stm32_oop_lib
 {
   GPIO::GPIO(GPIO_PortPinTypeDef port_pin,
              gpio_mode mode,

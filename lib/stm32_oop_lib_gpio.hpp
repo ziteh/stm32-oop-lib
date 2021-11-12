@@ -12,11 +12,11 @@ extern "C"
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 }
-#include "f103rb_gpio_mapping.hpp"
+#include "stm32_oop_lib_gpio_mapping.hpp"
 
 #define DEFAULT_GPIO_SPEED (speed_2mhz)
 
-namespace F103RB
+namespace stm32_oop_lib
 {
   typedef enum
   {

@@ -1,12 +1,13 @@
 /**
- * @file    f103rb_gpio_mapping.hpp
+ * @file    stm32_oop_lib_gpio_mapping.hpp
  * @author  ZiTe <honmonoh@gmail.com>
+ * @brief   This file is part of the 'STM32F1xx OOP Library' project.
  */
 
-#ifndef F103RB_GPIO_MAPPING_HPP_
-#define F103RB_GPIO_MAPPING_HPP_
+#ifndef STM32_OOP_LIB_GPIO_MAPPING_HPP_
+#define STM32_OOP_LIB_GPIO_MAPPING_HPP_
 
-namespace F103RB
+namespace stm32_oop_lib
 {
   typedef enum
   {
@@ -386,4 +387,4 @@ namespace F103RB
   } GPIO_PortPinTypeDef;
 }
 
-#endif /* F103RB_GPIO_MAPPING_HPP_ */
+#endif /* STM32_OOP_LIB_GPIO_MAPPING_HPP_ */
