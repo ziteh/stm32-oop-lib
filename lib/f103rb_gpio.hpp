@@ -8,7 +8,8 @@
 
 extern "C"
 {
-#include "stm32f10x.h"
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
 }
 #include "f103rb_gpio_mapping.hpp"
 
