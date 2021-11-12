@@ -1,122 +1,234 @@
 /**
  * @file    f103rb_gpio.cpp
  * @author  ZiTe <honmonoh@gmail.com>
+ * @brief   This file is part of the 'STM32F1xx OOP Library' project.
  */
 
 #include "f103rb_gpio.hpp"
 
 namespace F103RB
 {
-  GPIO::GPIO(GPIO_PortPinTypeDef port_Pin,
-             GPIOMode_TypeDef mode,
-             GPIOSpeed_TypeDef speed,
-             bool immediatelyInit)
+  GPIO::GPIO(GPIO_PortPinTypeDef port_pin,
+             gpio_mode mode,
+             bool immediately_init,
+             gpio_speed speed)
   {
-    this->_Port_Pin = port_Pin;
-    this->_Mode = mode;
-    this->_Speed = speed;
+    this->_mode = mode;
+    this->_speed = speed;
+    this->_port = this->parse_port(port_pin);
+    this->_pin = this->parse_pin(port_pin);
 
-    if (immediatelyInit)
-      this->Init();
+    if (immediately_init)
+    {
+      this->init();
+    }
   }
 
-  GPIO::GPIO(GPIO_PortPinTypeDef port_Pin,
-             GPIOMode_TypeDef mode,
-             GPIO_ValueTypeDef init_Value,
-             GPIOSpeed_TypeDef speed,
-             bool immediatelyInit)
+  GPIO::GPIO(GPIO_PortPinTypeDef port_pin,
+             gpio_mode mode,
+             gpio_value init_value,
+             gpio_speed speed)
   {
-    this->_Port_Pin = port_Pin;
-    this->_Mode = mode;
-    this->_Speed = speed;
+    this->_mode = mode;
+    this->_speed = speed;
+    this->_port = this->parse_port(port_pin);
+    this->_pin = this->parse_pin(port_pin);
 
-    if (immediatelyInit)
-      this->Init();
-
-    if (this->Is_OutputPin())
-      this->Set(init_Value);
+    if (this->is_output())
+    {
+      this->init();
+      this->set(init_value);
+    }
   }
 
-  void GPIO::Init(void)
+  void GPIO::init(void)
   {
-    GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.GPIO_Mode = this->_Mode;
-    GPIO_InitStructure.GPIO_Speed = this->_Speed;
-    GPIO_InitStructure.GPIO_Pin = this->Get_Pin();
-    GPIO_Init(this->Get_Port(), &GPIO_InitStructure);
+    uint8_t mode;
+    uint8_t cnf;
+
+    switch (this->_speed)
+    {
+    case speed_10mhz:
+      mode = GPIO_MODE_OUTPUT_10_MHZ;
+      break;
+
+    case speed_50mhz:
+      mode = GPIO_MODE_OUTPUT_50_MHZ;
+      break;
+
+    case speed_2mhz:
+    default:
+      mode = GPIO_MODE_OUTPUT_2_MHZ;
+      break;
+    }
+
+    switch (this->_mode)
+    {
+    case output_open_drain:
+      cnf = GPIO_CNF_OUTPUT_OPENDRAIN;
+      break;
+
+    case output_push_pull:
+      cnf = GPIO_CNF_OUTPUT_PUSHPULL;
+      break;
+
+    case output_altfn_open_drain:
+      cnf = GPIO_CNF_OUTPUT_ALTFN_OPENDRAIN;
+      break;
+
+    case output_altfn_push_pull:
+      cnf = GPIO_CNF_OUTPUT_ALTFN_PUSHPULL;
+      break;
+
+    case input_pull_down:
+    case input_pull_up:
+      cnf = GPIO_CNF_INPUT_PULL_UPDOWN;
+      mode = GPIO_MODE_INPUT;
+      break;
+
+    case input_analog:
+      cnf = GPIO_CNF_INPUT_ANALOG;
+      mode = GPIO_MODE_INPUT;
+      break;
+
+    case input_float:
+    default:
+      cnf = GPIO_CNF_INPUT_FLOAT;
+      mode = GPIO_MODE_INPUT;
+      break;
+    }
+
+    gpio_set_mode(this->get_port(),
+                  mode,
+                  cnf,
+                  this->get_pin());
   }
 
-  void GPIO::Set(GPIO_ValueTypeDef value)
+  void GPIO::set(gpio_value value)
   {
     switch (value)
     {
-    case LOW:
-      (this->Get_Port())->BRR |= this->Get_Pin(); // Set value LOW
+    case low:
+      GPIO_BRR(this->get_port()) |= this->get_pin();
       break;
 
-    case HIGH:
-      (this->Get_Port())->BSRR |= this->Get_Pin(); // Set value HIGH
+    case high:
+      GPIO_BSRR(this->get_port()) |= this->get_pin();
       break;
     }
   }
 
-  void GPIO::Set(uint8_t value)
+  void GPIO::set(uint8_t value)
   {
-    this->Set(this->Convert_uint8_t_to_GPIO_Value_TypeDef(value));
+    this->set(this->convert_uint8_t_to_gpio_value(value));
   }
 
-  void GPIO::Toggle(void)
+  void GPIO::toggle(void)
   {
-    (this->Get_Port())->ODR ^= this->Get_Pin();
+    GPIO_ODR(this->get_port()) ^= this->get_pin();
   }
 
-  GPIO_ValueTypeDef GPIO::Get(void)
+  gpio_value GPIO::get(void)
   {
-    GPIO_ValueTypeDef value;
+    gpio_value value;
 
-    if (this->Is_OutputPin())
+    if (this->is_output())
     {
-      value = this->Get_Output();
-      // value = GPIO_ReadOutputDataBit(this->Get_Port(), this->Get_Pin());
+      value = this->get_output();
     }
     else
     {
-      value = this->Get_Input();
-      // value = GPIO_ReadInputDataBit(this->Get_Port(), this->Get_Pin());
+      value = this->get_input();
     }
 
     return value;
   }
 
-  GPIO_ValueTypeDef GPIO::Get_Input(void)
+  gpio_value GPIO::get_input(void)
   {
-    GPIO_ValueTypeDef value;
-    uint32_t IDR_value = (this->Get_Port())->IDR & this->Get_Pin();
+    gpio_value value;
+    uint32_t IDR_value = GPIO_IDR(this->get_port()) & this->get_pin();
 
-    if (IDR_value == (uint32_t)Bit_RESET)
-      value = LOW;
+    if (IDR_value == 0)
+    {
+      value = low;
+    }
     else
-      value = HIGH;
+    {
+      value = high;
+    }
 
     return value;
   }
 
-  GPIO_ValueTypeDef GPIO::Get_Output(void)
+  gpio_value GPIO::get_output(void)
   {
-    GPIO_ValueTypeDef value;
-    uint32_t ODR_value = (this->Get_Port())->ODR & this->Get_Pin();
+    gpio_value value;
+    uint32_t ODR_value = GPIO_ODR(this->get_port()) & this->get_pin();
 
-    if (ODR_value == (uint32_t)Bit_RESET)
-      value = LOW;
+    if (ODR_value == 0)
+    {
+      value = low;
+    }
     else
-      value = HIGH;
+    {
+      value = high;
+    }
 
     return value;
   }
 
-  GPIO_TypeDef *GPIO::Get_Port(void)
+  uint32_t GPIO::get_port(void)
   {
-    uint8_t u8_Port_Pin = (uint8_t)this->_Port_Pin;
+    return this->_port;
+  }
+
+  uint16_t GPIO::get_pin(void)
+  {
+    return this->_pin;
+  }
+
+  gpio_value GPIO::convert_uint8_t_to_gpio_value(uint8_t value)
+  {
+    if (value == 0)
+    {
+      return (gpio_value)low;
+    }
+    else
+    {
+      return (gpio_value)high;
+    }
+  }
+
+  bool GPIO::is_output()
+  {
+    bool value;
+
+    switch (this->_mode)
+    {
+    case output_open_drain:
+    case output_push_pull:
+    case output_altfn_open_drain:
+    case output_altfn_push_pull:
+      // This GPIO is output.
+      value = true;
+      break;
+
+    case input_analog:
+    case input_float:
+    case input_pull_down:
+    case input_pull_up:
+      // This GPIO is input.
+      value = false;
+      break;
+    }
+
+    return value;
+  }
+
+  uint32_t parse_port(GPIO_PortPinTypeDef port_pin)
+  {
+    uint8_t u8_Port_Pin = (uint8_t)port_pin;
 
     if (u8_Port_Pin <= (uint8_t)PA15) // Port-A:  0~15
       return GPIOA;
@@ -130,10 +242,10 @@ namespace F103RB
       return GPIOE;
   }
 
-  uint16_t GPIO::Get_Pin(void)
+  uint16_t parse_pin(GPIO_PortPinTypeDef port_pin)
   {
     uint8_t offset = 0;
-    uint8_t u8_Port_Pin = (uint8_t)this->_Port_Pin;
+    uint8_t u8_Port_Pin = (uint8_t)port_pin;
 
     if (u8_Port_Pin <= (uint8_t)PA15) // Port-A:  0~15
       offset = (uint8_t)PA0;
@@ -147,50 +259,5 @@ namespace F103RB
       offset = (uint8_t)PE0;
 
     return (uint16_t)(0x0001 << (u8_Port_Pin - offset));
-  }
-
-  /**
- * @brief   Convert uint8_t to GPIO_Value_TypeDef.
- * @param   value: The value in uint8_t. This parameter should be 0 or 1.
- * @return  The converted GPIO_Value_TypeDef value.
- */
-  GPIO_ValueTypeDef GPIO::Convert_uint8_t_to_GPIO_Value_TypeDef(uint8_t value)
-  {
-    GPIO_ValueTypeDef gpioValue;
-    if (value == 0)
-    {
-      gpioValue = (GPIO_ValueTypeDef)LOW;
-    }
-    else
-    {
-      gpioValue = (GPIO_ValueTypeDef)HIGH;
-    }
-    return gpioValue;
-  }
-
-  bool GPIO::Is_OutputPin()
-  {
-    bool value;
-
-    switch (this->_Mode)
-    {
-    case GPIO_Mode_Out_OD:
-    case GPIO_Mode_Out_PP:
-    case GPIO_Mode_AF_OD:
-    case GPIO_Mode_AF_PP:
-      // This GPIO is output.
-      value = true;
-      break;
-
-    case GPIO_Mode_AIN:
-    case GPIO_Mode_IN_FLOATING:
-    case GPIO_Mode_IPD:
-    case GPIO_Mode_IPU:
-      // This GPIO is input.
-      value = false;
-      break;
-    }
-
-    return value;
   }
 }
