@@ -1,7 +1,5 @@
 # STM32F1xx OOP Library
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/ziteh/stm32f103rb-libraries/blob/main/LICENSE)  
-
 Basic libraries specialized for STM32F103RB ([NUCLEO-F103RB](https://www.st.com/en/evaluation-tools/nucleo-f103rb.html) development board).
 
 專門給 STM32F103RB ([NUCLEO-F103RB](https://www.st.com/en/evaluation-tools/nucleo-f103rb.html) development board) 使用的基本函式庫。 
