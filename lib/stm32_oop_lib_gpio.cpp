@@ -1,10 +1,10 @@
 /**
- * @file    f103rb_gpio.cpp
+ * @file    stm32_oop_lib_gpio.cpp
  * @author  ZiTe <honmonoh@gmail.com>
  * @brief   This file is part of the 'STM32F1xx OOP Library' project.
  */
 
-#include "f103rb_gpio.hpp"
+#include "stm32_oop_lib_gpio.hpp"
 
 namespace F103RB
 {

@@ -1,11 +1,11 @@
 /**
- * @file    f103rb_gpio.hpp 
+ * @file    stm32_oop_lib_gpio.hpp 
  * @author  ZiTe <honmonoh@gmail.com>
  * @brief   This file is part of the 'STM32F1xx OOP Library' project.
  */
 
-#ifndef F103RB_GPIO_HPP_
-#define F103RB_GPIO_HPP_
+#ifndef STM32_OOP_LIB_GPIO_HPP_
+#define STM32_OOP_LIB_GPIO_HPP_
 
 extern "C"
 {
@@ -84,4 +84,4 @@ namespace F103RB
 
 #undef DEFAULT_GPIO_SPEED
 
-#endif /* F103RB_GPIO_HPP_ */
+#endif /* STM32_OOP_LIB_GPIO_HPP_ */
