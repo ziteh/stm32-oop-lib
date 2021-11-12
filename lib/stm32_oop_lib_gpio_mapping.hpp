@@ -384,7 +384,7 @@ namespace stm32_oop_lib
     LD2 = PA5, // When the I/O is HIGH value, the LED is on; the I/O is LOW, the LED is off.
     User_Button = B1,
     User_LED = LD2
-  } GPIO_PortPinTypeDef;
+  } gpio_port_pin;
 }
 
 #endif /* STM32_OOP_LIB_GPIO_MAPPING_HPP_ */

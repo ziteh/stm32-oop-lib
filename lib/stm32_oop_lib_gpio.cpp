@@ -8,7 +8,7 @@
 
 namespace stm32_oop_lib
 {
-  GPIO::GPIO(GPIO_PortPinTypeDef port_pin,
+  GPIO::GPIO(gpio_port_pin port_pin,
              gpio_mode mode,
              bool immediately_init,
              gpio_speed speed)
@@ -24,7 +24,7 @@ namespace stm32_oop_lib
     }
   }
 
-  GPIO::GPIO(GPIO_PortPinTypeDef port_pin,
+  GPIO::GPIO(gpio_port_pin port_pin,
              gpio_mode mode,
              gpio_value init_value,
              gpio_speed speed)
@@ -226,7 +226,7 @@ namespace stm32_oop_lib
     return value;
   }
 
-  uint32_t parse_port(GPIO_PortPinTypeDef port_pin)
+  uint32_t parse_port(gpio_port_pin port_pin)
   {
     uint8_t u8_Port_Pin = (uint8_t)port_pin;
 
@@ -242,7 +242,7 @@ namespace stm32_oop_lib
       return GPIOE;
   }
 
-  uint16_t parse_pin(GPIO_PortPinTypeDef port_pin)
+  uint16_t parse_pin(gpio_port_pin port_pin)
   {
     uint8_t offset = 0;
     uint8_t u8_Port_Pin = (uint8_t)port_pin;

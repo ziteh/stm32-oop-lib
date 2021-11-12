@@ -52,15 +52,15 @@ namespace stm32_oop_lib
     gpio_speed _speed;
 
     gpio_value convert_uint8_t_to_gpio_value(uint8_t value);
-    uint32_t parse_port(GPIO_PortPinTypeDef port_pin);
-    uint16_t parse_pin(GPIO_PortPinTypeDef port_pin);
+    uint32_t parse_port(gpio_port_pin port_pin);
+    uint16_t parse_pin(gpio_port_pin port_pin);
 
   public:
-    GPIO(GPIO_PortPinTypeDef port_pin,
+    GPIO(gpio_port_pin port_pin,
          gpio_mode mode,
          bool immediately_init = true,
          gpio_speed speed = DEFAULT_GPIO_SPEED);
-    GPIO(GPIO_PortPinTypeDef port_pin,
+    GPIO(gpio_port_pin port_pin,
          gpio_mode mode,
          gpio_value init_value,
          gpio_speed speed = DEFAULT_GPIO_SPEED);
