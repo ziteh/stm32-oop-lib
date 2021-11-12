@@ -1,4 +1,4 @@
-# STM32F103RB Libraries
+# STM32F1xx OOP Library
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/ziteh/stm32f103rb-libraries/blob/main/LICENSE)  
 
