@@ -1,16 +1,13 @@
 /**
- * @file    f103rb_adc.hpp 
- * @author  ZiTe <honmonoh@gmail.com>
+ * @file   stm32_oop_lib_adc.h
+ * @author ZiTe (honmonoh@gmail.com)
+ * @brief  This file is part of the 'STM32 OOP Library (stm32_oop_lib)' project.
  */
 
-#ifndef F103RB_ADC_HPP_
-#define F103RB_ADC_HPP_
+#ifndef STM32_OOP_LIB_ADC_H_
+#define STM32_OOP_LIB_ADC_H_
 
-extern "C"
-{
-#include "stm32f10x.h"
-}
-#include "f103rb_gpio.hpp"
+#include "stm32_oop_lib_gpio.h"
 
 #define DEFAULT_ADC_RANK (1)
 #define DEFAULT_ADC_SAMPLE_TIME (ADC_SampleTime_55Cycles5)
@@ -45,4 +42,4 @@ namespace stm32_oop_lib
   };
 }
 
-#endif /* F103RB_ADC_HPP_ */
+#endif /* STM32_OOP_LIB_ADC_H_ */

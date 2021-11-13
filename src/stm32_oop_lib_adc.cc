@@ -1,9 +1,10 @@
 /**
- * @file    f103rb_adc.cpp 
- * @author  ZiTe <honmonoh@gmail.com>
+ * @file   stm32_oop_lib_adc.cc
+ * @author ZiTe (honmonoh@gmail.com)
+ * @brief  This file is part of the 'STM32 OOP Library (stm32_oop_lib)' project.
  */
 
-#include "f103rb_adc.hpp"
+#include "stm32_oop_lib_adc.h"
 
 namespace stm32_oop_lib
 {
