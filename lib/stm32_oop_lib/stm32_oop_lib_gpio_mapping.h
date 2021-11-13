@@ -1,12 +1,13 @@
 /**
- * @file    f103rb_gpio_mapping.hpp
+ * @file    stm32_oop_lib_gpio_mapping.h
  * @author  ZiTe <honmonoh@gmail.com>
+ * @brief   This file is part of the 'STM32F1xx OOP Library' project.
  */
 
-#ifndef F103RB_GPIO_MAPPING_HPP_
-#define F103RB_GPIO_MAPPING_HPP_
+#ifndef STM32_OOP_LIB_GPIO_MAPPING_H_
+#define STM32_OOP_LIB_GPIO_MAPPING_H_
 
-namespace F103RB
+namespace stm32_oop_lib
 {
   typedef enum
   {
@@ -381,9 +382,9 @@ namespace F103RB
     /* STM32 Nucleo-64 board */
     B1 = PC13, // When push the button, the I/O is LOW value.
     LD2 = PA5, // When the I/O is HIGH value, the LED is on; the I/O is LOW, the LED is off.
-    User_Button = B1,
-    User_LED = LD2
-  } GPIO_PortPinTypeDef;
+    UserButton = B1,
+    UserLED = LD2
+  } GPIOPortPin;
 }
 
-#endif /* F103RB_GPIO_MAPPING_HPP_ */
+#endif /* STM32_OOP_LIB_GPIO_MAPPING_H_ */

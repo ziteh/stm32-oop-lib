@@ -1,19 +1,44 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "PlatformIO",
             "includePath": [
-                "${default}",
-                "${workspaceFolder}/lib/**",
-                "${workspaceFolder}/libopencm3/include/**",
-                "${USER_PATH}/.platformio/packages/toolchain-gccarmnoneeabi/lib/gcc/arm-none-eabi/7.2.1/include/**" 
+                "C:/Users/wk415/GoogleDrive/01-Projects/stm32f1xx-oop-library/include",
+                "C:/Users/wk415/GoogleDrive/01-Projects/stm32f1xx-oop-library/src",
+                "C:/Users/wk415/.platformio/packages/framework-libopencm3",
+                "C:/Users/wk415/.platformio/packages/framework-libopencm3/include",
+                "C:/Users/wk415/.platformio/packages/tool-unity",
+                "",
+                "${workspaceFolder}/lib/stm32_oop_lib"
             ],
-            "windowsSdkVersion": "10.0.17763.0",
-            "compilerPath": "",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "${default}",
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "C:/Users/wk415/GoogleDrive/01-Projects/stm32f1xx-oop-library/include",
+                    "C:/Users/wk415/GoogleDrive/01-Projects/stm32f1xx-oop-library/src",
+                    "C:/Users/wk415/.platformio/packages/framework-libopencm3",
+                    "C:/Users/wk415/.platformio/packages/framework-libopencm3/include",
+                    "C:/Users/wk415/.platformio/packages/tool-unity",
+                    ""
+                ]
+            },
             "defines": [
+                "PLATFORMIO=50203",
+                "STM32F103xB",
+                "STM32F1",
+                "F_CPU=72000000L",
+                ""
+            ],
+            "compilerPath": "C:/Users/wk415/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc.exe",
+            "compilerArgs": [
+                "-mthumb",
+                "-mcpu=cortex-m3",
+                ""
             ]
         }
     ],
