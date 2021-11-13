@@ -3,6 +3,7 @@
     "cmath": "cpp",
     "cstdio": "cpp",
     "cstdlib": "cpp",
-    "*.tcc": "cpp"
+    "*.tcc": "cpp",
+    "stm32_oop_lib_pwm_h": "c"
   }
 }
