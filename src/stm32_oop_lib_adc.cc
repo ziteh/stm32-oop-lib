@@ -19,7 +19,7 @@ namespace stm32_oop_lib
     this->sample_time_ = sample_time_;
   }
 
-  void ADC::Init(void)
+  void ADC::Init(bool immediately_enable)
   {
     GPIO adc_gpio(this->port_pin_, InputAnalog, false);
     adc_gpio.Init();
@@ -34,6 +34,11 @@ namespace stm32_oop_lib
     adc_set_sample_time(this->adc_,
                         this->adc_channel_,
                         this->sample_time_);
+
+    if (immediately_enable)
+    {
+      this->Enable();
+    }
   }
 
   void ADC::Enable(void)
@@ -56,7 +61,7 @@ namespace stm32_oop_lib
 
   void ADC::Disable(void)
   {
-    adc_power_on(this->adc_);
+    adc_power_off(this->adc_);
   }
 
   void ADC::StartConversiion(void)

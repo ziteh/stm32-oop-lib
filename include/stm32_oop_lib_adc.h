@@ -28,7 +28,7 @@ namespace stm32_oop_lib
         GPIOPortPin port_pin,
         uint8_t sample_time = DEFAULT_ADC_SAMPLE_TIME);
 
-    void Init(void);
+    void Init(bool immediately_enable = true);
     void Enable(void);
     void Disable(void);
     void StartConversiion(void);
