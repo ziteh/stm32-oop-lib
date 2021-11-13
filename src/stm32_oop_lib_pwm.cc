@@ -4,7 +4,7 @@
  * @brief  This file is part of the 'STM32 OOP Library (stm32_oop_lib)' project.
  */
 
-#include "stm32_oop_lib_pwm_h"
+#include "stm32_oop_lib_pwm.h"
 
 namespace stm32_oop_lib
 {
