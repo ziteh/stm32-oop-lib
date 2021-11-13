@@ -109,11 +109,11 @@ namespace stm32_oop_lib
     switch (value)
     {
     case Low:
-      GPIO_BRR(this->GetPort()) |= this->GetPin();
+      GPIO_BRR(this->port_) |= this->pin_;
       break;
 
     case High:
-      GPIO_BSRR(this->GetPort()) |= this->GetPin();
+      GPIO_BSRR(this->port_) |= this->pin_;
       break;
     }
   }
@@ -125,7 +125,7 @@ namespace stm32_oop_lib
 
   void GPIO::Toggle(void)
   {
-    GPIO_ODR(this->GetPort()) ^= this->GetPin();
+    GPIO_ODR(this->port_) ^= this->pin_;
   }
 
   GPIOValue GPIO::Get(void)
@@ -147,7 +147,7 @@ namespace stm32_oop_lib
   GPIOValue GPIO::GetInput(void)
   {
     GPIOValue value;
-    uint32_t idr_value = GPIO_IDR(this->GetPort()) & this->GetPin();
+    uint32_t idr_value = GPIO_IDR(this->port_) & this->pin_;
 
     if (idr_value == 0)
     {
@@ -164,7 +164,7 @@ namespace stm32_oop_lib
   GPIOValue GPIO::GetOutput(void)
   {
     GPIOValue value;
-    uint32_t odr_value = GPIO_ODR(this->GetPort()) & this->GetPin();
+    uint32_t odr_value = GPIO_ODR(this->port_) & this->pin_;
 
     if (odr_value == 0)
     {
