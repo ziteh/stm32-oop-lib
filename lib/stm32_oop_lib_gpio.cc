@@ -1,232 +1,232 @@
 /**
- * @file    stm32_oop_lib_gpio.cpp
+ * @file    stm32_oop_lib_gpio.cc
  * @author  ZiTe <honmonoh@gmail.com>
  * @brief   This file is part of the 'STM32F1xx OOP Library' project.
  */
 
-#include "stm32_oop_lib_gpio.hpp"
+#include "stm32_oop_lib_gpio.h"
 
 namespace stm32_oop_lib
 {
   GPIO::GPIO(gpio_port_pin port_pin,
-             gpio_mode mode,
+             GPIOMode mode,
              bool immediately_init,
-             gpio_speed speed)
+             GPIOSpeed speed)
   {
-    this->_mode = mode;
-    this->_speed = speed;
-    this->_port = this->parse_port(port_pin);
-    this->_pin = this->parse_pin(port_pin);
+    this->mode_ = mode;
+    this->speed_ = speed;
+    this->port_ = this->ParsePort(port_pin);
+    this->pin_ = this->ParsePin(port_pin);
 
     if (immediately_init)
     {
-      this->init();
+      this->Init();
     }
   }
 
   GPIO::GPIO(gpio_port_pin port_pin,
-             gpio_mode mode,
-             gpio_value init_value,
-             gpio_speed speed)
+             GPIOMode mode,
+             GPIOValue init_value,
+             GPIOSpeed speed)
   {
-    this->_mode = mode;
-    this->_speed = speed;
-    this->_port = this->parse_port(port_pin);
-    this->_pin = this->parse_pin(port_pin);
+    this->mode_ = mode;
+    this->speed_ = speed;
+    this->port_ = this->ParsePort(port_pin);
+    this->pin_ = this->ParsePin(port_pin);
 
-    if (this->is_output())
+    if (this->IsOutput())
     {
-      this->init();
-      this->set(init_value);
+      this->Init();
+      this->Set(init_value);
     }
   }
 
-  void GPIO::init(void)
+  void GPIO::Init(void)
   {
     uint8_t mode;
     uint8_t cnf;
 
-    switch (this->_speed)
+    switch (this->speed_)
     {
-    case speed_10mhz:
+    case Speed10MHz:
       mode = GPIO_MODE_OUTPUT_10_MHZ;
       break;
 
-    case speed_50mhz:
+    case Speed50MHz:
       mode = GPIO_MODE_OUTPUT_50_MHZ;
       break;
 
-    case speed_2mhz:
+    case Speed2MHz:
     default:
       mode = GPIO_MODE_OUTPUT_2_MHZ;
       break;
     }
 
-    switch (this->_mode)
+    switch (this->mode_)
     {
-    case output_open_drain:
+    case OutputOpenDrain:
       cnf = GPIO_CNF_OUTPUT_OPENDRAIN;
       break;
 
-    case output_push_pull:
+    case OutputPushPull:
       cnf = GPIO_CNF_OUTPUT_PUSHPULL;
       break;
 
-    case output_altfn_open_drain:
+    case OutputAltfnOpenDrain:
       cnf = GPIO_CNF_OUTPUT_ALTFN_OPENDRAIN;
       break;
 
-    case output_altfn_push_pull:
+    case OutputAltfnPushPull:
       cnf = GPIO_CNF_OUTPUT_ALTFN_PUSHPULL;
       break;
 
-    case input_pull_down:
-    case input_pull_up:
+    case InputPullDown:
+    case InputPullUp:
       cnf = GPIO_CNF_INPUT_PULL_UPDOWN;
       mode = GPIO_MODE_INPUT;
       break;
 
-    case input_analog:
+    case InputAnalog:
       cnf = GPIO_CNF_INPUT_ANALOG;
       mode = GPIO_MODE_INPUT;
       break;
 
-    case input_float:
+    case InputFloat:
     default:
       cnf = GPIO_CNF_INPUT_FLOAT;
       mode = GPIO_MODE_INPUT;
       break;
     }
 
-    gpio_set_mode(this->get_port(),
+    gpio_set_mode(this->GetPort(),
                   mode,
                   cnf,
-                  this->get_pin());
+                  this->GetPin());
   }
 
-  void GPIO::set(gpio_value value)
+  void GPIO::Set(GPIOValue value)
   {
     switch (value)
     {
-    case low:
-      GPIO_BRR(this->get_port()) |= this->get_pin();
+    case Low:
+      GPIO_BRR(this->GetPort()) |= this->GetPin();
       break;
 
-    case high:
-      GPIO_BSRR(this->get_port()) |= this->get_pin();
+    case High:
+      GPIO_BSRR(this->GetPort()) |= this->GetPin();
       break;
     }
   }
 
-  void GPIO::set(uint8_t value)
+  void GPIO::Set(uint8_t value)
   {
-    this->set(this->convert_uint8_t_to_gpio_value(value));
+    this->Set(this->ConvertUint8tToGPIOValue(value));
   }
 
-  void GPIO::toggle(void)
+  void GPIO::Toggle(void)
   {
-    GPIO_ODR(this->get_port()) ^= this->get_pin();
+    GPIO_ODR(this->GetPort()) ^= this->GetPin();
   }
 
-  gpio_value GPIO::get(void)
+  GPIOValue GPIO::Get(void)
   {
-    gpio_value value;
+    GPIOValue value;
 
-    if (this->is_output())
+    if (this->IsOutput())
     {
-      value = this->get_output();
+      value = this->GetOutput();
     }
     else
     {
-      value = this->get_input();
+      value = this->GetInput();
     }
 
     return value;
   }
 
-  gpio_value GPIO::get_input(void)
+  GPIOValue GPIO::GetInput(void)
   {
-    gpio_value value;
-    uint32_t IDR_value = GPIO_IDR(this->get_port()) & this->get_pin();
+    GPIOValue value;
+    uint32_t idr_value = GPIO_IDR(this->GetPort()) & this->GetPin();
 
-    if (IDR_value == 0)
+    if (idr_value == 0)
     {
-      value = low;
+      value = Low;
     }
     else
     {
-      value = high;
+      value = High;
     }
 
     return value;
   }
 
-  gpio_value GPIO::get_output(void)
+  GPIOValue GPIO::GetOutput(void)
   {
-    gpio_value value;
-    uint32_t ODR_value = GPIO_ODR(this->get_port()) & this->get_pin();
+    GPIOValue value;
+    uint32_t odr_value = GPIO_ODR(this->GetPort()) & this->GetPin();
 
-    if (ODR_value == 0)
+    if (odr_value == 0)
     {
-      value = low;
+      value = Low;
     }
     else
     {
-      value = high;
+      value = High;
     }
 
     return value;
   }
 
-  uint32_t GPIO::get_port(void)
+  uint32_t GPIO::GetPort(void)
   {
-    return this->_port;
+    return this->port_;
   }
 
-  uint16_t GPIO::get_pin(void)
+  uint16_t GPIO::GetPin(void)
   {
-    return this->_pin;
+    return this->pin_;
   }
 
-  gpio_value GPIO::convert_uint8_t_to_gpio_value(uint8_t value)
+  GPIOValue GPIO::ConvertUint8tToGPIOValue(uint8_t value)
   {
     if (value == 0)
     {
-      return (gpio_value)low;
+      return (GPIOValue)Low;
     }
     else
     {
-      return (gpio_value)high;
+      return (GPIOValue)High;
     }
   }
 
-  bool GPIO::is_output()
+  bool GPIO::IsOutput()
   {
-    bool value;
+    bool is_output;
 
-    switch (this->_mode)
+    switch (this->mode_)
     {
-    case output_open_drain:
-    case output_push_pull:
-    case output_altfn_open_drain:
-    case output_altfn_push_pull:
+    case OutputOpenDrain:
+    case OutputPushPull:
+    case OutputAltfnOpenDrain:
+    case OutputAltfnPushPull:
       // This GPIO is output.
-      value = true;
+      is_output = true;
       break;
 
-    case input_analog:
-    case input_float:
-    case input_pull_down:
-    case input_pull_up:
+    case InputAnalog:
+    case InputFloat:
+    case InputPullDown:
+    case InputPullUp:
       // This GPIO is input.
-      value = false;
+      is_output = false;
       break;
     }
 
-    return value;
+    return is_output;
   }
 
-  uint32_t parse_port(gpio_port_pin port_pin)
+  uint32_t ParsePort(gpio_port_pin port_pin)
   {
     uint8_t u8_Port_Pin = (uint8_t)port_pin;
 
@@ -242,7 +242,7 @@ namespace stm32_oop_lib
       return GPIOE;
   }
 
-  uint16_t parse_pin(gpio_port_pin port_pin)
+  uint16_t ParsePin(gpio_port_pin port_pin)
   {
     uint8_t offset = 0;
     uint8_t u8_Port_Pin = (uint8_t)port_pin;

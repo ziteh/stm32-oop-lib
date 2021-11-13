@@ -1,11 +1,11 @@
 /**
- * @file    stm32_oop_lib_gpio_mapping.hpp
+ * @file    stm32_oop_lib_gpio_mapping.h
  * @author  ZiTe <honmonoh@gmail.com>
  * @brief   This file is part of the 'STM32F1xx OOP Library' project.
  */
 
-#ifndef STM32_OOP_LIB_GPIO_MAPPING_HPP_
-#define STM32_OOP_LIB_GPIO_MAPPING_HPP_
+#ifndef STM32_OOP_LIB_GPIO_MAPPING_H_
+#define STM32_OOP_LIB_GPIO_MAPPING_H_
 
 namespace stm32_oop_lib
 {
@@ -387,4 +387,4 @@ namespace stm32_oop_lib
   } gpio_port_pin;
 }
 
-#endif /* STM32_OOP_LIB_GPIO_MAPPING_HPP_ */
+#endif /* STM32_OOP_LIB_GPIO_MAPPING_H_ */
