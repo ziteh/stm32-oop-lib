@@ -1,0 +1,17 @@
+{
+  "name": "stm32_oop_lib",
+  "version": "0.2.1",
+  "description": "The basic OOP library of STM32.",
+  "keywords": "STM32, STM32F1xx",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ziteh/stm32-oop-lib"
+  },
+  "authors": {
+    "name": "ZiTe",
+    "email": "honmonoh@gmail.com"
+  },
+  "license": "LGPL-2.1-or-later",
+  "frameworks": "libopencm3",
+  "platforms": "ststm32"
+}
