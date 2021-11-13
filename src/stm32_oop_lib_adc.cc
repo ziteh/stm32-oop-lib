@@ -8,77 +8,67 @@
 
 namespace stm32_oop_lib
 {
-  ADC::ADC(GPIO_PortPinTypeDef port_pin,
-           ADC_TypeDef *ADC,
-           uint8_t ADC_Channel)
+  ADC::ADC(uint32_t adc,
+           uint8_t adc_channel,
+           GPIOPortPin port_pin)
   {
-    // The clock of ADC con't over than 14MHz.
-    RCC_ADCCLKConfig(DEFAULT_ADC_CLK_CONFIG);
-
-    this->_PortPin = port_pin;
-    this->_ADCx = ADC;
-    this->_ADC_Channel = ADC_Channel;
+    this->adc_ = adc;
+    this->adc_channel_ = adc_channel;
+    this->port_pin_ = port_pin;
   }
 
   void ADC::Init(void)
   {
-    GPIO adc_pin(this->_PortPin, GPIO_Mode_AIN);
-    adc_pin.Init();
-
-    ADC_DeInit(this->_ADCx);
-
-    ADC_InitTypeDef ADC_InitStruct;
-    ADC_InitStruct.ADC_ContinuousConvMode = DISABLE;
-    ADC_InitStruct.ADC_DataAlign = ADC_DataAlign_Right;
-    ADC_InitStruct.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
-    ADC_InitStruct.ADC_Mode = ADC_Mode_Independent;
-    ADC_InitStruct.ADC_NbrOfChannel = 1;
-    ADC_InitStruct.ADC_ScanConvMode = DISABLE;
-    ADC_Init(this->_ADCx, &ADC_InitStruct);
+    GPIO adc_gpio(this->port_pin_, InputAnalog, false);
+    adc_gpio.Init();
 
     this->Disable();
+
+    adc_disable_scan_mode(this->adc_);
+    adc_disable_external_trigger_regular(this->adc_);
+
+    adc_set_single_conversion_mode(this->adc_);
+    adc_set_right_aligned(this->adc_);
+    adc_set_sample_time(this->adc_,
+                        this->adc_channel_, DEFAULT_ADC_SAMPLE_TIME);
   }
 
   void ADC::Enable(void)
   {
-    ADC_Cmd(this->_ADCx, ENABLE);
+    adc_power_on(this->adc_);
 
-    /* ADC Calibration */
-    // Reset calibration
-    ADC_ResetCalibration(this->_ADCx);
-
-    // Wait until reset calibration complete
-    while (ADC_GetResetCalibrationStatus(this->_ADCx) == 1)
+    /* Wait a bit. */
+    for (int i = 0; i < 800000; i++)
     {
-      /* Null */
+      __asm__("nop");
     }
 
-    // Start calibration
-    ADC_StartCalibration(this->_ADCx);
+    adc_reset_calibration(this->adc_);
+    adc_calibrate(this->adc_);
 
-    // Wait until calibration complete
-    while (ADC_GetCalibrationStatus(this->_ADCx) == 1)
-    {
-      /* Null */
-    }
+    uint8_t ch[16];
+    ch[0] = this->adc_channel_;
+    adc_set_regular_sequence(this->adc_, 1, ch);
   }
 
   void ADC::Disable(void)
   {
-    ADC_Cmd(_ADCx, DISABLE);
+    adc_power_on(this->adc_);
   }
 
-  uint16_t ADC::Get_Value(uint8_t Rank, uint8_t SampleTime)
+  void ADC::StartConversiion(void)
   {
-    ADC_RegularChannelConfig(this->_ADCx, this->_ADC_Channel, Rank, SampleTime);
-    ADC_SoftwareStartConvCmd(this->_ADCx, ENABLE);
+    adc_start_conversion_direct(this->adc_);
+  }
 
-    // Wait for convert complete
-    while (ADC_GetFlagStatus(this->_ADCx, ADC_FLAG_EOC) == 0)
+  uint16_t ADC::GetValue(void)
+  {
+    /* Wati for ADC convert complete. */
+    while (!adc_get_flag(this->adc_, ADC_SR_EOC))
     {
-      /* Null */
+      __asm__("nop");
     }
 
-    return ADC_GetConversionValue(this->_ADCx);
+    return (uint16_t)ADC_DR(this->adc_);
   }
 }
