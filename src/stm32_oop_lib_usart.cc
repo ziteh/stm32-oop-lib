@@ -30,7 +30,6 @@ namespace stm32_oop_lib
     usart_set_databits(this->usart_, 8);
     usart_set_stopbits(this->usart_, USART_STOPBITS_1);
     usart_set_parity(this->usart_, USART_PARITY_NONE);
-    ;
     usart_set_flow_control(this->usart_, USART_FLOWCONTROL_NONE);
     usart_set_mode(this->usart_, USART_MODE_TX_RX);
 
