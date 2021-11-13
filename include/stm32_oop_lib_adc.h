@@ -16,7 +16,7 @@ extern "C"
 #define DEFAULT_ADC_SAMPLE_TIME (ADC_SampleTime_55Cycles5)
 #define DEFAULT_ADC_CLK_CONFIG (RCC_PCLK2_Div6)
 
-namespace F103RB
+namespace stm32_oop_lib
 {
   class ADC
   {

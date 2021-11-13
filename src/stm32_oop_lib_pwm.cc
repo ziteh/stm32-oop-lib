@@ -1,11 +1,12 @@
 /**
- * @file    f103rb_pwm.cpp
- * @author  ZiTe <honmonoh@gmail.com>
+ * @file   stm32_oop_lib_pwm.cc
+ * @author ZiTe (honmonoh@gmail.com)
+ * @brief  This file is part of the 'STM32 OOP Library (stm32_oop_lib)' project.
  */
 
-#include "f103rb_pwm.hpp"
+#include "stm32_oop_lib_pwm_h"
 
-namespace F103RB
+namespace stm32_oop_lib
 {
   PWM::PWM(GPIO_PortPinTypeDef portPin,
            TIM_TypeDef *Timer,

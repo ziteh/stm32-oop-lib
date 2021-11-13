@@ -1,18 +1,15 @@
 /**
- * @file    f103rb_pwm.hpp
- * @author  ZiTe <honmonoh@gmail.com>
+ * @file   stm32_oop_lib_pwm.h
+ * @author ZiTe (honmonoh@gmail.com)
+ * @brief  This file is part of the 'STM32 OOP Library (stm32_oop_lib)' project.
  */
 
-#ifndef F103RB_PWM_HPP_
-#define F103RB_PWM_HPP_
+#ifndef STM32_OOP_LIB_PWM_H_
+#define STM32_OOP_LIB_PWM_H_
 
-extern "C"
-{
-#include "stm32f10x.h"
-}
-#include "f103rb_gpio.hpp"
+#include "stm32_oop_lib_gpio.h"
 
-namespace F103RB
+namespace stm32_oop_lib
 {
   typedef enum
   {
@@ -25,7 +22,7 @@ namespace F103RB
   class PWM
   {
   private:
-    GPIO_PortPinTypeDef _Port_Pin;
+    GPIOPortPin _Port_Pin;
     TIM_TypeDef *_Timer;
     PWM_TimerChannelTypeDef _Channel;
     TIM_TimeBaseInitTypeDef _TIM_TimeBaseStructure;
@@ -55,4 +52,4 @@ namespace F103RB
   };
 }
 
-#endif /* F103RB_PWM_HPP_ */
+#endif /* STM32_OOP_LIB_PWM_H_ */

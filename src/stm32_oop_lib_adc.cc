@@ -5,7 +5,7 @@
 
 #include "f103rb_adc.hpp"
 
-namespace F103RB
+namespace stm32_oop_lib
 {
   ADC::ADC(GPIO_PortPinTypeDef port_pin,
            ADC_TypeDef *ADC,
