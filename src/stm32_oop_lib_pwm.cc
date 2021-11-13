@@ -4,123 +4,90 @@
  * @brief  This file is part of the 'STM32 OOP Library (stm32_oop_lib)' project.
  */
 
-#include "stm32_oop_lib_pwm_h"
+#include "stm32_oop_lib_pwm.h"
 
 namespace stm32_oop_lib
 {
-  PWM::PWM(GPIO_PortPinTypeDef portPin,
-           TIM_TypeDef *Timer,
-           PWM_TimerChannelTypeDef channel)
+  PWM::PWM(GPIOPortPin portPin,
+           uint32_t timer,
+           tim_oc_id channel,
+           uint16_t duty_cycle)
   {
-    this->_Port_Pin = portPin;
-    this->_Timer = Timer;
-    this->_Channel = channel;
+    this->port_pin_ = portPin;
+    this->timer_ = timer;
+    this->channel_ = channel;
+    this->duty_cycle_ = duty_cycle;
   }
 
-  void PWM::Init(RCC_ClocksTypeDef RCC_Clocks)
+  void PWM::Init(bool immediately_enable = true)
   {
-    this->_RCC_Clocks = RCC_Clocks;
-    GPIO gpio(this->_Port_Pin, GPIO_Mode_AF_PP, GPIO_Speed_50MHz, true);
+    GPIO pwm_gpio(this->port_pin_,
+                  OutputAltfnPushPull,
+                  true,
+                  Speed50MHz);
 
-    TIM_TimeBaseStructInit(&_TIM_TimeBaseStructure);
-    _TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-    _TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+    this->Disable();
 
-    TIM_OCStructInit(&_TIM_OCInitStructure);
-    _TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-    _TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Disable;
-    _TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+    timer_set_mode(this->timer_,
+                   TIM_CR1_CKD_CK_INT,
+                   TIM_CR1_CMS_EDGE,
+                   TIM_CR1_DIR_UP);
+    timer_disable_preload(this->timer_);
+    timer_continuous_mode(this->timer_);
 
-    this->Init_Timer();
+    timer_set_period(this->timer_, this->period);
+    timer_set_prescaler(this->timer_,
+                        ((rcc_ahb_frequency / this->period) / 1000.0));
+
+    timer_set_oc_mode(this->timer_, this->channel_, TIM_OCM_PWM1);
+    timer_set_oc_value(this->timer_, this->channel_, this->GetPulse());
+
+    if (immediately_enable)
+    {
+      this->Enable();
+    }
   }
 
   void PWM::Enable(void)
   {
-    if (_TIM_OCInitStructure.TIM_OutputState != TIM_OutputState_Enable)
-    {
-      _TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-      this->Init_Timer();
-    }
-
-    // TIMx peripheral Preload register on CCRx
-    switch (_Channel)
-    {
-    case CH1:
-      TIM_OC1PreloadConfig(_Timer, TIM_OCPreload_Enable);
-      break;
-    case CH2:
-      TIM_OC2PreloadConfig(_Timer, TIM_OCPreload_Enable);
-      break;
-    case CH3:
-      TIM_OC3PreloadConfig(_Timer, TIM_OCPreload_Enable);
-      break;
-    case CH4:
-      TIM_OC4PreloadConfig(_Timer, TIM_OCPreload_Enable);
-      break;
-    default:
-      break;
-    }
-    TIM_ARRPreloadConfig(_Timer, ENABLE); // TIMx peripheral Preload register on ARR
-    TIM_Cmd(_Timer, ENABLE);              // The specified TIM peripheral
+    timer_enable_oc_output(this->timer_, this->channel_);
+    timer_enable_counter(this->timer_);
   }
 
   void PWM::Disable(void)
   {
-    if (_TIM_OCInitStructure.TIM_OutputState != TIM_OutputState_Disable)
-    {
-      _TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Disable;
-      this->Init_Timer();
-    }
-
-    // TIMx peripheral Preload register on CCRx
-    switch (_Channel)
-    {
-    case CH1:
-      TIM_OC1PreloadConfig(_Timer, TIM_OCPreload_Disable);
-      break;
-    case CH2:
-      TIM_OC2PreloadConfig(_Timer, TIM_OCPreload_Disable);
-      break;
-    case CH3:
-      TIM_OC3PreloadConfig(_Timer, TIM_OCPreload_Disable);
-      break;
-    case CH4:
-      TIM_OC4PreloadConfig(_Timer, TIM_OCPreload_Disable);
-      break;
-    default:
-      break;
-    }
-    TIM_ARRPreloadConfig(_Timer, DISABLE); // TIMx peripheral Preload register on ARR
-    TIM_Cmd(_Timer, DISABLE);              // The specified TIM peripheral
+    timer_disable_oc_output(this->timer_, this->channel_);
+    timer_disable_counter(this->timer_);
   }
 
-  void PWM::Set_Frequency(uint16_t value)
+  /**
+   * TODO
+   */
+  void PWM::SetFrequency(uint16_t value)
   {
     /**
    *  TIM_Period = ((System_Frequency / TIM_Prescaler) / PWM_Frequency) - 1
    *
    *  The Maximum of System_Frequency is 72MHz (STM32F103RB)
    */
-    float frequency = value + this->FrequencyOffset;
+    // float frequency = value + this->FrequencyOffset;
 
-    _TIM_TimeBaseStructure.TIM_Prescaler = 100;
-    _TIM_TimeBaseStructure.TIM_Period = ((this->_RCC_Clocks.SYSCLK_Frequency / _TIM_TimeBaseStructure.TIM_Prescaler) / frequency) - 1;
+    // _TIM_TimeBaseStructure.TIM_Prescaler = 100;
+    // _TIM_TimeBaseStructure.TIM_Period = ((this->_RCC_Clocks.SYSCLK_Frequency / _TIM_TimeBaseStructure.TIM_Prescaler) / frequency) - 1;
 
-    this->Init_Timer();
+    // this->Init_Timer();
   }
 
-  void PWM::Set_DutyCycle(uint16_t value)
+  void PWM::SetDutyCycle(uint16_t duty_cycle)
   {
-    uint16_t targetDutyCycle = this->ConvertDutyCycleToPulse(value) + this->DutyCycleOffset;
-
-    if (_TIM_OCInitStructure.TIM_Pulse != targetDutyCycle)
-    {
-      _TIM_OCInitStructure.TIM_Pulse = targetDutyCycle;
-      this->Init_Timer();
-    }
+    this->duty_cycle_ = duty_cycle_;
+    timer_set_oc_value(this->timer_, this->channel_, this->GetPulse());
   }
 
-  uint16_t PWM::Get_Frequency(void)
+  /**
+   * TODO
+   */
+  uint16_t PWM::GetFrequency(void)
   {
     /**
    * PWM_Frequency = (System_Frequency / TIM_Prescaler) / (TIM_Period + 1)
@@ -128,10 +95,13 @@ namespace stm32_oop_lib
    * The Maximum of System_Frequency = 72MHz (STM32F103RB)
    */
 
-    return (this->_RCC_Clocks.SYSCLK_Frequency / _TIM_TimeBaseStructure.TIM_Prescaler) / (_TIM_TimeBaseStructure.TIM_Period + 1);
+    // return (this->_RCC_Clocks.SYSCLK_Frequency / _TIM_TimeBaseStructure.TIM_Prescaler) / (_TIM_TimeBaseStructure.TIM_Period + 1);
   }
 
-  uint16_t PWM::Get_DutyCycle(void)
+  /**
+   * TODO
+   */
+  uint16_t PWM::GetDutyCycle(void)
   {
     /**
    *  PWM_Duty Cycle % = (TIM_Pulse * 100%) / TIM_Period
@@ -140,48 +110,28 @@ namespace stm32_oop_lib
    *  TIM_Period = ARR
    */
 
-    switch (this->_Channel)
-    {
-    case CH1:
-      return ((_Timer->CCR1) * 100.0) / (_Timer->ARR);
-      break;
-    case CH2:
-      return ((_Timer->CCR2) * 100.0) / (_Timer->ARR);
-      break;
-    case CH3:
-      return ((_Timer->CCR3) * 100.0) / (_Timer->ARR);
-      break;
-    case CH4:
-      return ((_Timer->CCR4) * 100.0) / (_Timer->ARR);
-      break;
-    default:
-      break;
-    }
+    // switch (this->channel_)
+    // {
+    // case Channel1:
+    //   return ((timer_->CCR1) * 100.0) / (timer_->ARR);
+    //   break;
+    // case CH2:
+    //   return ((timer_->CCR2) * 100.0) / (timer_->ARR);
+    //   break;
+    // case CH3:
+    //   return ((timer_->CCR3) * 100.0) / (timer_->ARR);
+    //   break;
+    // case CH4:
+    //   return ((timer_->CCR4) * 100.0) / (timer_->ARR);
+    //   break;
+    // default:
+    //   break;
+    // }
   }
 
-  void PWM::Init_Timer(void)
-  {
-    TIM_TimeBaseInit(_Timer, &_TIM_TimeBaseStructure);
-    switch (_Channel)
-    {
-    case CH1:
-      TIM_OC1Init(_Timer, &_TIM_OCInitStructure);
-      break;
-    case CH2:
-      TIM_OC2Init(_Timer, &_TIM_OCInitStructure);
-      break;
-    case CH3:
-      TIM_OC3Init(_Timer, &_TIM_OCInitStructure);
-      break;
-    case CH4:
-      TIM_OC4Init(_Timer, &_TIM_OCInitStructure);
-      break;
-    }
-  }
-
-  uint16_t PWM::ConvertDutyCycleToPulse(uint16_t dutyCycle)
+  uint32_t PWM::GetPulse()
   {
     /* TIM_Pulse = (PWM_Duty Cycle % * TIM_Period) / 100% */
-    return (dutyCycle * (_TIM_TimeBaseStructure.TIM_Period) / 100.0);
+    return (uint32_t)(this->period * (this->duty_cycle_ / 100.0));
   }
 }
