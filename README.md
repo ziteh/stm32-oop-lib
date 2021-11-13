@@ -1,4 +1,4 @@
-# STM32F OOP Library
+# STM32 OOP Library
 
 The basic OOP library of STM32.  
 Published on PlatformIO ([stm32_oop_lib](https://platformio.org/lib/show/13134/stm32_oop_lib)).
