@@ -10,11 +10,13 @@ namespace stm32_oop_lib
 {
   ADC::ADC(uint32_t adc,
            uint8_t adc_channel,
-           GPIOPortPin port_pin)
+           GPIOPortPin port_pin,
+           uint8_t sample_time)
   {
     this->adc_ = adc;
     this->adc_channel_ = adc_channel;
     this->port_pin_ = port_pin;
+    this->sample_time_ = sample_time_;
   }
 
   void ADC::Init(void)
@@ -30,7 +32,8 @@ namespace stm32_oop_lib
     adc_set_single_conversion_mode(this->adc_);
     adc_set_right_aligned(this->adc_);
     adc_set_sample_time(this->adc_,
-                        this->adc_channel_, DEFAULT_ADC_SAMPLE_TIME);
+                        this->adc_channel_,
+                        this->sample_time_);
   }
 
   void ADC::Enable(void)

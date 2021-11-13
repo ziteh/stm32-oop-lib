@@ -20,11 +20,13 @@ namespace stm32_oop_lib
     GPIOPortPin port_pin_;
     uint32_t adc_;
     uint8_t adc_channel_;
+    uint8_t sample_time_;
 
   public:
     ADC(uint32_t adc,
         uint8_t adc_channel,
-        GPIOPortPin port_pin);
+        GPIOPortPin port_pin,
+        uint8_t sample_time = DEFAULT_ADC_SAMPLE_TIME);
 
     void Init(void);
     void Enable(void);
