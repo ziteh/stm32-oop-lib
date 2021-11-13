@@ -9,7 +9,6 @@
 
 extern "C"
 {
-#include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 }
 #include "stm32_oop_lib_gpio_mapping.h"
@@ -45,8 +44,8 @@ namespace stm32_oop_lib
   class GPIO
   {
   private:
-    uint8_t port_;
-    uint8_t pin_;
+    uint32_t port_;
+    uint16_t pin_;
     GPIOMode mode_;
     GPIOSpeed speed_;
 

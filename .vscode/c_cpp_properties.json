@@ -13,7 +13,8 @@
                 "C:/Users/wk415/.platformio/packages/framework-libopencm3",
                 "C:/Users/wk415/.platformio/packages/framework-libopencm3/include",
                 "C:/Users/wk415/.platformio/packages/tool-unity",
-                ""
+                "",
+                "${workspaceFolder}/lib/stm32_oop_lib"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
