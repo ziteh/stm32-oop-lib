@@ -51,16 +51,16 @@ namespace stm32_oop_lib
     GPIOSpeed speed_;
 
     GPIOValue ConvertUint8tToGPIOValue(uint8_t value);
-    uint32_t ParsePort(gpio_port_pin port_pin);
-    uint16_t ParsePin(gpio_port_pin port_pin);
+    uint32_t ParsePort(GPIOPortPin port_pin);
+    uint16_t ParsePin(GPIOPortPin port_pin);
 
   public:
-    GPIO(gpio_port_pin port_pin,
+    GPIO(GPIOPortPin port_pin,
          GPIOMode mode,
          bool immediately_init = true,
          GPIOSpeed speed = Speed2MHz);
 
-    GPIO(gpio_port_pin port_pin,
+    GPIO(GPIOPortPin port_pin,
          GPIOMode mode,
          GPIOValue init_value,
          GPIOSpeed speed = Speed2MHz);

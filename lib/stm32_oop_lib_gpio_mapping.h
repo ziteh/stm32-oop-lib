@@ -382,9 +382,9 @@ namespace stm32_oop_lib
     /* STM32 Nucleo-64 board */
     B1 = PC13, // When push the button, the I/O is LOW value.
     LD2 = PA5, // When the I/O is HIGH value, the LED is on; the I/O is LOW, the LED is off.
-    User_Button = B1,
-    User_LED = LD2
-  } gpio_port_pin;
+    UserButton = B1,
+    UserLED = LD2
+  } GPIOPortPin;
 }
 
 #endif /* STM32_OOP_LIB_GPIO_MAPPING_H_ */
