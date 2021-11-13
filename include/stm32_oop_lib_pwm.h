@@ -7,48 +7,41 @@
 #ifndef STM32_OOP_LIB_PWM_H_
 #define STM32_OOP_LIB_PWM_H_
 
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/timer.h>
 #include "stm32_oop_lib_gpio.h"
 
 namespace stm32_oop_lib
 {
-  typedef enum
-  {
-    CH1 = 1,
-    CH2,
-    CH3,
-    CH4
-  } PWM_TimerChannelTypeDef;
-
   class PWM
   {
   private:
-    GPIOPortPin _Port_Pin;
-    TIM_TypeDef *_Timer;
-    PWM_TimerChannelTypeDef _Channel;
-    TIM_TimeBaseInitTypeDef _TIM_TimeBaseStructure;
-    TIM_OCInitTypeDef _TIM_OCInitStructure;
-    RCC_ClocksTypeDef _RCC_Clocks;
+    GPIOPortPin port_pin_;
+    uint32_t timer_;
+    tim_oc_id channel_;
+    uint16_t duty_cycle_;
 
-    void Init_Timer(void);
-    uint16_t ConvertDutyCycleToPulse(uint16_t dutyCycle);
+    uint32_t GetPulse(void);
 
   public:
-    float FrequencyOffset = 0.0;
-    float DutyCycleOffset = 0.0;
+    // float FrequencyOffset = 0.0;
+    // float DutyCycleOffset = 0.0;
+    uint32_t period = 480000;
 
-    PWM(GPIO_PortPinTypeDef portPin,
-        TIM_TypeDef *Timer,
-        PWM_TimerChannelTypeDef channel);
-    void Init(RCC_ClocksTypeDef RCC_Clocks);
+    PWM(GPIOPortPin portPin,
+        uint32_t timer,
+        tim_oc_id channel,
+        uint16_t duty_cycle = 50.0);
+    void Init(bool immediately_enable = true);
 
     void Enable(void);
     void Disable(void);
 
-    void Set_Frequency(uint16_t frequency);
-    void Set_DutyCycle(uint16_t value);
+    void SetFrequency(uint16_t frequency);
+    void SetDutyCycle(uint16_t duty_cycle);
 
-    uint16_t Get_Frequency(void);
-    uint16_t Get_DutyCycle(void);
+    uint16_t GetFrequency(void);
+    uint16_t GetDutyCycle(void);
   };
 }
 
