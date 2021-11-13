@@ -1,7 +1,7 @@
 /**
  * @file    stm32_oop_lib_gpio.h 
  * @author  ZiTe <honmonoh@gmail.com>
- * @brief   This file is part of the 'STM32F1xx OOP Library' project.
+ * @brief  This file is part of the 'STM32 OOP Library (stm32_oop_lib)' project.
  */
 
 #ifndef STM32_OOP_LIB_GPIO_H_
