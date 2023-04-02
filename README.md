@@ -1,7 +1,8 @@
 # STM32 OOP Library
 
+***Legacy***
+
 The basic OOP library of STM32.  
-Published on PlatformIO ([stm32_oop_lib](https://platformio.org/lib/show/13134/stm32_oop_lib)).
 
 # Features / 功能
 - GPIO
@@ -54,10 +55,6 @@ void delay(int value)
   }
 }
 ```
-
-## Example Repo / 範例 Repo
-
-- [ziteh/stm32-oop-lib-examples](https://github.com/ziteh/stm32-oop-lib-examples)
 
 # Dependency / 依賴
 
